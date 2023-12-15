@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 5</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <contador-component></contador-component>
+ </body>
+</html>
+<script>
+  class ContadorComponent extends HTMLElement {
+    constructor() {
+      super();
+      this._counter = 0;
+      this.incrementButton = null;
+      this.decrementButton = null;
+    }
+  
+    connectedCallback() {
+      this.render();
+      this.attachListeners();
+    }
+  
+    render() {
+      this.innerHTML = `
+        <div class="card text-center">
+           
+          <div class="card-body">
+            <h5 class="card-title">Contador: ${this._counter}</h5>
+            <button id="increment" class="btn btn-success mr-2">+</button>
+            <button id="decrement" class="btn btn-danger">-</button>
+          </div>
+           
+        </div>
+      `;
+      this.incrementButton = this.querySelector('#increment');
+      this.decrementButton = this.querySelector('#decrement');
+    }
+  
+    attachListeners() {
+      this.incrementButton.addEventListener('click', this.increment.bind(this));
+      this.decrementButton.addEventListener('click', this.decrement.bind(this));
+    }
+
+    increment() {
+      this._counter++;
+      this.update();
+    }
+
+    decrement() {
+      this._counter--;
+      this.update();
+    }
+
+    update() {
+      this.incrementButton.removeEventListener('click', this.increment.bind(this));
+      this.decrementButton.removeEventListener('click', this.decrement.bind(this));
+      this.render();
+      this.attachListeners();
+    }
+  }
+  
+  customElements.define('contador-component', ContadorComponent);
+</script>
