@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Composición de Componentes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+
+</head>
+
+<body>
+   <div class="container card mt-5">
+
+
+     <contenedor-component>
+      <my-header slot="header"></my-header>
+
+      <my-content slot="content"></my-content>
+    </contenedor-component>
+  </div> 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+<script>
+  // Componente Contenedor
+  class MyContainer extends HTMLElement {
+    constructor() {
+      super();
+
+       this.attachShadow({ mode: 'open' });
+
+       this.shadowRoot.innerHTML = `
+      <div>
+        <slot name="header"></slot>
+        <slot name="content"></slot>
+       </div>
+    `;
+    }
+  }
+
+   customElements.define('contenedor-component', MyContainer);
+
+   class MyHeader extends HTMLElement {
+    constructor() {
+      super();
+
+       this.attachShadow({ mode: 'open' });
+
+       this.shadowRoot.innerHTML = `
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+      <header>
+        <nav class="navbar bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand">Encabezado</a>
+    <form class="d-flex" role="search">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+      </header>
+    `;
+    }
+  }
+
+   customElements.define('my-header', MyHeader);
+
+
+   class MyContent extends HTMLElement {
+    constructor() {
+      super();
+
+      // Crear Shadow DOM
+      this.attachShadow({ mode: 'open' });
+
+       this.shadowRoot.innerHTML = `
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+      <header>
+       <style>
+    section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h2, p {
+      width: 50%;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+
+  <section class="text-center">
+  <div>
+    <h2>¡Hola desde el Contenido!</h2>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos perspiciatis voluptatibus ipsam quaerat blanditiis? Enim, placeat odio culpa quisquam quam voluptate quia totam voluptatum reiciendis at? Unde officia quas maxime.</p>
+  </div>
+  <img src="https://picsum.photos/200/300" alt="Imagen aleatoria">
+</section>
+    `;
+    }
+  }
+
+   customElements.define('my-content', MyContent);
+</script>
+
+</html>
